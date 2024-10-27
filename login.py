@@ -13,7 +13,7 @@ from streamlit_option_menu import option_menu
 
 from datetime import datetime, timedelta   
 
-st.set_page_config(page_title="GDE ACESSO_PROD_V1.2")
+st.set_page_config(page_title="GFS_PROD_V1.2")
 
 # Função para verificar login no banco de dados
 def login(username, password, selected_table):
