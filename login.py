@@ -51,36 +51,36 @@ def login_page():
 
 # Função para exibir o menu e funcionalidades após o login
 def show_menu():
-    st.sidebar.title("Menu")
-
-    # Definir opções de menu com base no nível de usuário
+    # Define as abas de acordo com o nível do usuário
     if st.session_state.selected_table == "USER_ADMIN":
-        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
-                        "Extrair Relatório", "Usuários", "Banco de Dados", "Usuario Administrador", "Logout"]
+        tabs = st.tabs(["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Usuários", "Banco de Dados", "Usuario Administrador", "Logout"])
     else:
-        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
-                        "Extrair Relatório", "Logout"]
+        tabs = st.tabs(["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Logout"])
 
-    selected = st.sidebar.radio("Navegação", menu_options)
-
-    # Exibir cada página com base na seleção
-    if selected == "Entrada":
+    # Conteúdo para cada aba
+    with tabs[0]:  # Entrada
         exec(open("entrada.py", encoding='utf-8').read())
-    elif selected == "Cadastro Aluno":
-        exec(open("alunos.py", encoding='utf-8').read())    
-    elif selected == "Montar Treino":
+    with tabs[1]:  # Cadastro Aluno
+        exec(open("alunos.py", encoding='utf-8').read())
+    with tabs[2]:  # Gestão de Entrada
+        exec(open("gestao_entrada.py").read())
+    with tabs[3]:  # Montar Treino
         exec(open("treino.py", encoding='utf-8').read())
-    elif selected == "Gestão de Entrada":
-        exec(open("gestao_entrada.py").read())    
-    elif selected == "Extrair Relatório":
+    with tabs[4]:  # Extrair Relatório
         exec(open("relatorio.py").read())
-    elif selected == "Usuários":
-        exec(open("user.py", encoding='utf-8').read())
-    elif selected == "Banco de Dados":
-        exec(open("editar_excluir.py").read())
-    elif selected == "Usuario Administrador":
-        exec(open("useradmin.py").read())
-    elif selected == "Logout":
+
+    # Opções adicionais apenas para administradores
+    if st.session_state.selected_table == "USER_ADMIN":
+        with tabs[5]:  # Usuários
+            exec(open("user.py", encoding='utf-8').read())
+        with tabs[6]:  # Banco de Dados
+            exec(open("editar_excluir.py").read())
+        with tabs[7]:  # Usuario Administrador
+            exec(open("useradmin.py").read())
+
+    with tabs[-1]:  # Logout
         logout()
 
 # Função para fazer logout
@@ -102,3 +102,4 @@ def carregar_css(caminho_css):
 
 # Chame a função com o caminho do arquivo CSS
 carregar_css("style.css")
+
