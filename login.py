@@ -1,17 +1,7 @@
-import datetime 
+import datetime
 import sqlite3
 import streamlit as st
-from streamlit_option_menu import option_menu
 from datetime import datetime, timedelta
-import datetime                                                         
-
-import sqlite3                                                          
-
-import streamlit as st                                                  
-
-from streamlit_option_menu import option_menu                           
-
-from datetime import datetime, timedelta   
 
 st.set_page_config(page_title="GFS_PROD_V1.2")
 
@@ -61,28 +51,23 @@ def login_page():
 
 # Função para exibir o menu e funcionalidades após o login
 def show_menu():
-    with st.sidebar:
-        if st.session_state.selected_table == "USER_ADMIN":
-            selected = option_menu(
-                "Menu Administrador", 
-                ["Entrada","Cadastro Aluno", "Gestão de Entrada", "Montar Treino", "Extrair Relatório", "Usuários", "Banco de Dados", "Usuario Administrador", "Logout"], 
-                icons=['box-arrow-in-right', 'box-arrow-in-right', 'clipboard-data', 'x-circle', 'file-earmark-arrow-down', 'person', 'database', 'shield-lock', 'box-arrow-right'], 
-                menu_icon="cast", 
-                default_index=0
-            )
-        else:
-            selected = option_menu(
-                "Menu", 
-                ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", "Extrair Relatório", "Logout"], 
-                icons=['box-arrow-in-right', 'clipboard-data', 'x-circle', 'file-earmark-arrow-down', 'box-arrow-right'], 
-                menu_icon="cast", 
-                default_index=0
-            )
+    st.sidebar.title("Menu")
+    
+    # Exibir opções diferentes para administradores e usuários comuns
+    if st.session_state.selected_table == "USER_ADMIN":
+        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Usuários", "Banco de Dados", "Usuario Administrador", "Logout"]
+    else:
+        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Logout"]
+    
+    selected = st.sidebar.selectbox("Selecione uma opção", menu_options)
 
+    # Exibir cada página com base na seleção
     if selected == "Entrada":
-        exec(open("entrada.py",encoding='utf-8').read())
+        exec(open("entrada.py", encoding='utf-8').read())
     elif selected == "Cadastro Aluno":
-        exec(open("alunos.py",encoding='utf-8').read())    
+        exec(open("alunos.py", encoding='utf-8').read())    
     elif selected == "Montar Treino":
         exec(open("treino.py", encoding='utf-8').read())
     elif selected == "Gestão de Entrada":
@@ -90,7 +75,7 @@ def show_menu():
     elif selected == "Extrair Relatório":
         exec(open("relatorio.py").read())
     elif selected == "Usuários":
-        exec(open("user.py",encoding='utf-8').read())
+        exec(open("user.py", encoding='utf-8').read())
     elif selected == "Banco de Dados":
         exec(open("editar_excluir.py").read())
     elif selected == "Usuario Administrador":
@@ -111,12 +96,9 @@ if 'logged_in' not in st.session_state or not st.session_state.logged_in:
 else:
     show_menu()
 
-
-
 def carregar_css(caminho_css):
     with open(caminho_css) as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 # Chame a função com o caminho do arquivo CSS
 carregar_css("style.css")
-
