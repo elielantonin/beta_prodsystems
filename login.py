@@ -52,38 +52,35 @@ def login_page():
 # Função para exibir o menu e funcionalidades após o login
 def show_menu():
     st.sidebar.title("Menu")
-    
-    # Definir botões diferentes para administradores e usuários comuns
+
+    # Definir opções de menu com base no nível de usuário
     if st.session_state.selected_table == "USER_ADMIN":
-        if st.sidebar.button("Entrada"):
-            exec(open("entrada.py", encoding='utf-8').read())
-        if st.sidebar.button("Cadastro Aluno"):
-            exec(open("alunos.py", encoding='utf-8').read())
-        if st.sidebar.button("Gestão de Entrada"):
-            exec(open("gestao_entrada.py").read())
-        if st.sidebar.button("Montar Treino"):
-            exec(open("treino.py", encoding='utf-8').read())
-        if st.sidebar.button("Extrair Relatório"):
-            exec(open("relatorio.py").read())
-        if st.sidebar.button("Usuários"):
-            exec(open("user.py", encoding='utf-8').read())
-        if st.sidebar.button("Banco de Dados"):
-            exec(open("editar_excluir.py").read())
-        if st.sidebar.button("Usuario Administrador"):
-            exec(open("useradmin.py").read())
+        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Usuários", "Banco de Dados", "Usuario Administrador", "Logout"]
     else:
-        if st.sidebar.button("Entrada"):
-            exec(open("entrada.py", encoding='utf-8').read())
-        if st.sidebar.button("Cadastro Aluno"):
-            exec(open("alunos.py", encoding='utf-8').read())
-        if st.sidebar.button("Gestão de Entrada"):
-            exec(open("gestao_entrada.py").read())
-        if st.sidebar.button("Montar Treino"):
-            exec(open("treino.py", encoding='utf-8').read())
-        if st.sidebar.button("Extrair Relatório"):
-            exec(open("relatorio.py").read())
-    
-    if st.sidebar.button("Logout"):
+        menu_options = ["Entrada", "Cadastro Aluno", "Gestão de Entrada", "Montar Treino", 
+                        "Extrair Relatório", "Logout"]
+
+    selected = st.sidebar.radio("Navegação", menu_options)
+
+    # Exibir cada página com base na seleção
+    if selected == "Entrada":
+        exec(open("entrada.py", encoding='utf-8').read())
+    elif selected == "Cadastro Aluno":
+        exec(open("alunos.py", encoding='utf-8').read())    
+    elif selected == "Montar Treino":
+        exec(open("treino.py", encoding='utf-8').read())
+    elif selected == "Gestão de Entrada":
+        exec(open("gestao_entrada.py").read())    
+    elif selected == "Extrair Relatório":
+        exec(open("relatorio.py").read())
+    elif selected == "Usuários":
+        exec(open("user.py", encoding='utf-8').read())
+    elif selected == "Banco de Dados":
+        exec(open("editar_excluir.py").read())
+    elif selected == "Usuario Administrador":
+        exec(open("useradmin.py").read())
+    elif selected == "Logout":
         logout()
 
 # Função para fazer logout
@@ -105,4 +102,3 @@ def carregar_css(caminho_css):
 
 # Chame a função com o caminho do arquivo CSS
 carregar_css("style.css")
-
